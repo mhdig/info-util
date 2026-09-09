@@ -1,5 +1,13 @@
 # Funciones útiles para videojuegos con p5.js
 
+- [Funciones útiles para videojuegos con p5.js](#funciones-útiles-para-videojuegos-con-p5js)
+  - [Colisiones](#colisiones)
+    - [Entre rectángulos](#entre-rectángulos)
+    - [Entre círculos](#entre-círculos)
+  - [Máquinas Finitas de Estados (FSM)](#máquinas-finitas-de-estados-fsm)
+    - [Método 1: Máquina de estados simple (Basada en variables)](#método-1-máquina-de-estados-simple-basada-en-variables)
+    - [Método 2: Máquina de estados avanzada (Basada en objetos y funciones)](#método-2-máquina-de-estados-avanzada-basada-en-objetos-y-funciones)
+
 ---
 
 ## Colisiones
