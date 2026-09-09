@@ -7,6 +7,11 @@
   - [Máquinas Finitas de Estados (FSM)](#máquinas-finitas-de-estados-fsm)
     - [Método 1: Máquina de estados simple (Basada en variables)](#método-1-máquina-de-estados-simple-basada-en-variables)
     - [Método 2: Máquina de estados avanzada (Basada en objetos y funciones)](#método-2-máquina-de-estados-avanzada-basada-en-objetos-y-funciones)
+  - [Objetos, Arrays y Bucles (Loops)](#objetos-arrays-y-bucles-loops)
+    - [1. Objetos Simples (Agrupando propiedades)](#1-objetos-simples-agrupando-propiedades)
+    - [2. Arrays (Listas de cosas)](#2-arrays-listas-de-cosas)
+    - [3. El Bucle `for` (Repetición automática)](#3-el-bucle-for-repetición-automática)
+    - [Ejemplo Práctico: Generador de Enemigos](#ejemplo-práctico-generador-de-enemigos)
 
 ---
 
@@ -214,3 +219,115 @@ function escenaJuego() {
 
 **¿Cómo usarlo?**
 Para crear un nuevo estado, simplemente creas una función (como `escenaJuego`) y por dentro sobrescribes `Estado.upd` y `Estado.drw` con lo que necesites hacer. Cuando llamas a esa función principal, el motor del juego automáticamente comenzará a ejecutar las nuevas reglas y gráficos en el siguiente ciclo de `draw()`.
+
+---
+
+## Objetos, Arrays y Bucles (Loops)
+
+Cuando hacemos videojuegos, muchas veces necesitamos repetir cosas: dibujar 50 monedas, crear una lluvia de meteoritos o generar múltiples enemigos. Para no tener que escribir el código de cada uno individualmente, combinamos tres herramientas fundamentales: **Objetos**, **Arrays** (Arreglos) y **Bucles** (Loops).
+
+### 1. Objetos Simples (Agrupando propiedades)
+
+En lugar de tener variables sueltas para la posición `x` o `y` de un enemigo, usamos objetos para agrupar todas las características de una sola entidad entre llaves `{}`.
+
+```javascript
+// Un objeto simple
+let enemigo = { 
+  x: 100, 
+  y: 50, 
+  w: 30, 
+  h: 30, 
+  velocidad: 2 
+};
+
+// Para acceder a sus valores usamos el punto:
+// enemigo.x
+// enemigo.w
+
+```
+
+### 2. Arrays (Listas de cosas)
+
+Un Array es básicamente una lista. Se define usando corchetes `[]`. En los videojuegos, normalmente usamos Arrays para guardar muchos objetos similares.
+
+```javascript
+let puntajes = [10, 50, 100]; // Un array de números
+let enemigos = []; // Un array vacío, listo para llenarse de objetos
+
+```
+
+Para agregar un nuevo elemento a un array que ya existe, usamos el comando `.push()`.
+
+```javascript
+enemigos.push({ x: 10, y: 10, w: 30, h: 30 });
+
+```
+
+### 3. El Bucle `for` (Repetición automática)
+
+El bucle `for` es una máquina de repetición. Su estructura tiene tres partes separadas por punto y coma (`;`), que definen cómo y cuántas veces se repetirá el código que está adentro:
+
+1. **El contador (Inicialización):** `let i = 0` (Empezamos a contar desde cero).
+2. **La condición para parar:** `i < 5` (Repetir mientras `i` sea menor que 5).
+3. **El aumento del contador:** `i++` (Sumarle 1 a `i` en cada vuelta).
+
+```javascript
+// Este loop ejecutará su código interno 5 veces
+for (let i = 0; i < 5; i++) {
+  console.log("Esta es la vuelta número: " + i);
+}
+
+```
+
+### Ejemplo Práctico: Generador de Enemigos
+
+Este ejemplo muestra cómo usar un loop en el `setup()` para crear muchos objetos y guardarlos en un array, y luego usar otro loop en el `draw()` para recorrer ese array y dibujarlos todos.
+
+```javascript
+let enemigos = []; // 1. Creamos nuestro array vacío
+let cantidadEnemigos = 10;
+
+function setup() {
+  createCanvas(400, 400);
+
+  // 2. Llenar el array con objetos iniciales
+  // El contador 'i' va desde 0 hasta 9 (10 veces en total)
+  for (let i = 0; i < cantidadEnemigos; i++) {
+    // Generamos valores aleatorios para cada nuevo enemigo
+    let nuevoEnemigo = {
+      x: random(0, width),
+      y: random(0, height / 2), // Aparecen en la mitad superior
+      w: 20,
+      h: 20
+    };
+    
+    // Lo guardamos en la lista
+    enemigos.push(nuevoEnemigo); 
+  }
+}
+
+function draw() {
+  background(30);
+  fill(255, 50, 50); // Color rojo
+  noStroke();
+
+  // 3. Dibujar todos los objetos de la lista
+  // Usamos enemigos.length para saber exactamente cuántos hay
+  for (let i = 0; i < enemigos.length; i++) {
+    // Extraemos el enemigo actual de la lista usando su posición [i]
+    let enemigoActual = enemigos[i]; 
+    
+    // Lo dibujamos
+    rect(enemigoActual.x, enemigoActual.y, enemigoActual.w, enemigoActual.h);
+    
+    // Opcional: ¡Podemos animarlos aquí mismo!
+    // enemigoActual.y += 1; 
+  }
+}
+
+```
+
+**¿Cómo usarlo?**
+
+* **En `setup()`:** Usa el bucle `for` para crear objetos y usar `.push()` para meterlos al array de manera masiva.
+* **En `draw()`:** Usa el bucle `for` para iterar (recorrer) la lista usando la longitud de la misma (`tuArray.length`). Por cada vuelta, sacas un objeto usando el índice `[i]` y actualizas sus posiciones, lo dibujas o verificas si colisiona con el jugador.
